@@ -3,7 +3,7 @@ node_modules/
 
 # Demo files
 demo.js
-
+models
 # Logs
 logs/
 *.log
@@ -51,3 +51,4 @@ temp/
 coverage/
 .nyc_output/
 .vercel
+test*
