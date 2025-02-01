@@ -1,47 +1,42 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database";
 
-const User = sequelize.define(
-    'User', {
-        username: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true,
-            validate: {
-                len: [3, 50],
-            },
-        },
-        email: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true,
-            validate: {
-                isEmail: true,
-            },
-        },
-        password: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                len: [6, 100],
-            },
-        },
-        role: {
-            type: DataTypes.ENUM('user', 'admin'),
-            defaultValue: 'user',
-        },
-        isBlocked: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: false,
+const User = sequelize.define("User", {
+    username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+            len: [3, 50],
         },
     },
-    {
-        timestamps: true,
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+            isEmail: true,
+        },
     },
-);
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            len: [6, 100],
+        },
+    },
+    role: {
+        type: DataTypes.ENUM("user", "admin"),
+        defaultValue: "user",
+    },
+    isBlocked: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+    },
+},{timestamps: true});
 
 User.prototype.isAdmin = function() {
-    return this.role === 'admin';
+    return this.role === "admin";
 };
 
 User.prototype.canEditTemplate = function(templateOwnerId) {
