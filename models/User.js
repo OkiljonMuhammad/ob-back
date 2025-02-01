@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
+import bcrypt from "bcrypt";
 
 const User = sequelize.define("User", {
     id: {
@@ -56,4 +57,20 @@ User.prototype.canDeleteUser = function(targetUser) {
     return this.isAdmin() && targetUser.id !== this.id; 
 };
 
+User.prototype.comparePassword = async function(candidatePassword) {
+    return await bcrypt.compare(candidatePassword, this.password);
+};
+
+User.beforeCreate( async (user, options) => {
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+    user.password = hashedPassword;
+
+});
+
+User.beforeUpdate( async (user, options) => {
+    if(user.changed("password")) {
+        const hashedPassword = await bcrypt.hash(user.password, 10);
+        user.password = hashedPassword;
+    }
+});
 export default User;

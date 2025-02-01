@@ -2,6 +2,11 @@ import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
 
 const Form = sequelize.define('Form', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
     templateId: {
         type: DataTypes.INTEGER,
         references: {

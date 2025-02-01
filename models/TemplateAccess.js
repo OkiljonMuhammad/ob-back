@@ -2,6 +2,11 @@ import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
 
 const TemplateAccess = sequelize.define("TemplateAccess", {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
     templateId: {
         type: DataTypes.INTEGER,
         allowNull: false,
