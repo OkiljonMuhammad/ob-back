@@ -1,38 +1,55 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database";
 
-const User = sequelize.define('User', {
-    username: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-        validate: {
-            len: [3, 50],
+const User = sequelize.define(
+    'User', {
+        username: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true,
+            validate: {
+                len: [3, 50],
+            },
+        },
+        email: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true,
+            validate: {
+                isEmail: true,
+            },
+        },
+        password: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                len: [6, 100],
+            },
+        },
+        role: {
+            type: DataTypes.ENUM('user', 'admin'),
+            defaultValue: 'user',
+        },
+        isBlocked: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
         },
     },
-    email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-        validate: {
-            isEmail: true,
-        },
+    {
+        timestamps: true,
     },
-    password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            len: [6, 100],
-        },
-    },
-    role: {
-        type: DataTypes.ENUM('user', 'admin'),
-        defaultValue: 'user',
-    },
-    isBlock: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
-    },
-});
+);
+
+User.prototype.isAdmin = function() {
+    return this.role === 'admin';
+};
+
+User.prototype.canEditTemplate = function(templateOwnerId) {
+    return this.isAdmin() || this.id === templateOwnerId;
+};
+
+User.prototype.canDeleteUser = function(targetUser) {
+    return this.isAdmin() && targetUser.id !== this.id; 
+};
 
 export default User;
