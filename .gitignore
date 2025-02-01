@@ -51,4 +51,3 @@ temp/
 coverage/
 .nyc_output/
 .vercel
-test*
