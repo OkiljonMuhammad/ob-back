@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../config/database";
+import sequelize from "../config/database.js";
 
 const Question = sequelize.define("Question", {
     templateId: {
@@ -27,6 +27,6 @@ const Question = sequelize.define("Question", {
         type: DataTypes.INTEGER,
         allowNull: false,
     }
-});
+}, {tableName: "Question"});
 
 export default Question;

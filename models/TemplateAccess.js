@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../config/database";
+import sequelize from "../config/database.js";
 
-const TemplateAccess = sequelize.define("TemplateAcces", {
+const TemplateAccess = sequelize.define("TemplateAccess", {
     templateId: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -20,6 +20,6 @@ const TemplateAccess = sequelize.define("TemplateAcces", {
         },
         onDelete: "CASCADE",
     },
-});
+}, {tableName: "TemplateAccess"});
 
 export default TemplateAccess;

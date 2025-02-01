@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../config/database";
+import sequelize from "../config/database.js";
 
 const Form = sequelize.define('Form', {
     templateId: {
@@ -28,6 +28,6 @@ const Form = sequelize.define('Form', {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
     },
-});
+}, {tableName: "Form"});
 
 export default Form;

@@ -1,7 +1,12 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../config/database";
+import sequelize from "../config/database.js";
 
 const Template = sequelize.define("Template", {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
     title: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -23,7 +28,7 @@ const Template = sequelize.define("Template", {
         defaultValue: true,
     },
     tags: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
+        type: DataTypes.JSON,
         defaultValue: [],
     },
     userId: {
@@ -35,6 +40,10 @@ const Template = sequelize.define("Template", {
         },
         onDelete: "CASCADE",
     },
-},{timestamps: true});
+},
+{   
+    timestamps: true, 
+    tableName: "Template",
+});
 
 export default Template;
