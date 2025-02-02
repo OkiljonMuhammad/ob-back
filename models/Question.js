@@ -17,8 +17,11 @@ const Question = sequelize.define("Question", {
         onDelete: "CASCADE",
     },
     type: {
-        type: DataTypes.ENUM("single-line", "multi-line", "integer", "checkbox"),
+        type: DataTypes.STRING,
         allowNull: false,
+        alidate: {
+            isIn: [["single-line", "multi-line", "integer", "checkbox"]],
+          },
         },
     text: {
         type: DataTypes.STRING,
