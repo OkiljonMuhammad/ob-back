@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
 
-const TemplateAccess = sequelize.define("TemplateAccess", {
+const Likes = sequelize.define("Likes", {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -26,8 +26,8 @@ const TemplateAccess = sequelize.define("TemplateAccess", {
         onDelete: "CASCADE",
     },
 }, 
-{   timestamps: true,
-    tableName: "TemplateAccess",
+{   timestamps: true, 
+    tableName: "Likes",
 });
 
-export default TemplateAccess;
+export default Likes;

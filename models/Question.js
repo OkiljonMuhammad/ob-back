@@ -35,6 +35,9 @@ const Question = sequelize.define("Question", {
         type: DataTypes.INTEGER,
         allowNull: false,
     }
-}, {tableName: "Question"});
+}, 
+{   timestamps: true, 
+    tableName: "Question",
+});
 
 export default Question;

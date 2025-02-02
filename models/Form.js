@@ -33,6 +33,9 @@ const Form = sequelize.define('Form', {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
     },
-}, {tableName: "Form"});
+}, 
+{   timestamps: true, 
+    tableName: "Form",
+});
 
 export default Form;

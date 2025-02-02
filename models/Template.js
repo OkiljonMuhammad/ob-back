@@ -41,8 +41,7 @@ const Template = sequelize.define("Template", {
         onDelete: "CASCADE",
     },
 },
-{   
-    timestamps: true, 
+{   timestamps: true, 
     tableName: "Template",
 });
 

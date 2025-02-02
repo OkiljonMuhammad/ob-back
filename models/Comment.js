@@ -1,11 +1,15 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
 
-const TemplateAccess = sequelize.define("TemplateAccess", {
+const Comment = sequelize.define("Comment", {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+    },
+    content: {
+        type: DataTypes.STRING,
+        allowNull: false,
     },
     templateId: {
         type: DataTypes.INTEGER,
@@ -26,8 +30,8 @@ const TemplateAccess = sequelize.define("TemplateAccess", {
         onDelete: "CASCADE",
     },
 }, 
-{   timestamps: true,
-    tableName: "TemplateAccess",
+{   timestamps: true, 
+    tableName: "Comment",
 });
 
-export default TemplateAccess;
+export default Comment;
