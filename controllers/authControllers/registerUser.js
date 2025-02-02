@@ -1,11 +1,13 @@
 import { generateToken } from "../../utils/jwt.js";
 import User from "../../models/User.js";
 
+const DEFAULT_ROLE = "user";
+
 const registerUser = async (req, res) => {
   try {
     const { username, email, password, role } = req.body;
 
-    const existingUser = await User.findOne({ where: { email } });
+    const existingUser = await User.unscoped().findOne({ where: { email } });
     if (existingUser) {
       return res.status(400).json({ message: "User with this email already exists." });
     }
@@ -14,7 +16,7 @@ const registerUser = async (req, res) => {
       username,
       email,
       password, 
-      role: role || "user",
+      role: role || DEFAULT_ROLE,
     });
 
     const token = generateToken(newUser);

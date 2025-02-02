@@ -4,7 +4,7 @@ import AdminLog from "../../models/AdminLog.js";
 const toggleUserBlock = async (req, res) => {
   try {
     const { userId } = req.params;
-    const user = await User.findByPk(userId);
+    const user = await User.unscoped().findByPk(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }

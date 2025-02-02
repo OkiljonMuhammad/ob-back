@@ -13,7 +13,7 @@ const getAllUsers = async (req, res) => {
       ];
     }
 
-    const users = await User.findAndCountAll({
+    const users = await User.unscoped().findAndCountAll({
       attributes: ["id", "username", "email", "role", "isBlocked"],
       where: whereClause,
       offset: (page - 1) * limit,
