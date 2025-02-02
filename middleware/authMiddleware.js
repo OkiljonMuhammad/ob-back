@@ -27,7 +27,7 @@ export const authorizeRole = (requiredRole) => {
             return res.status(401).json({ message: "User not authenticated." });
         }
 
-        if (req.user.role.toLowerCase() !== requiredRole.toLowerCase()) {
+        if (req.user.role !== requiredRole) {
             return res.status(403).json({ message: "Forbidden. Insufficient permissions." });
         }
 
