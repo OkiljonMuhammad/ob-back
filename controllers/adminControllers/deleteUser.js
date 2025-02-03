@@ -10,6 +10,10 @@ const deleteUser = async (req, res) => {
         return res.status(404).json({ message: "User not found" });
         }
 
+        if (!user.canDeleteUser(user)) {
+            return res.status(403).json({message: "You cannot delete your admin account."});
+        }
+
         await user.destroy();
 
         await AdminLog.create({

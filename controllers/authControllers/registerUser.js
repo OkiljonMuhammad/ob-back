@@ -7,19 +7,24 @@ const registerUser = async (req, res) => {
   try {
     const { username, email, password, role } = req.body;
 
-    const existingUser = await User.unscoped().findOne({ where: { email } });
-    if (existingUser) {
+    const userWithEmail = await User.unscoped().findOne({ where: { email } });
+    if (userWithEmail) {
       return res.status(400).json({ message: "User with this email already exists." });
+    }
+
+    const userWithUsername = await User.unscoped().findOne({ where: { username } });
+    if (userWithUsername) {
+      return res.status(400).json({ message: "User with this username already exists." });
     }
 
     const newUser = await User.create({
       username,
       email,
       password, 
-      role: role || DEFAULT_ROLE,
+      role: role ?? DEFAULT_ROLE,
     });
 
-    const token = generateToken(newUser);
+    const token = generateToken({ id: newUser.id, role: newUser.role });
 
     res.status(201).json({
       message: "User registered successfully",

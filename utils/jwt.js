@@ -7,12 +7,12 @@ if (!process.env.JWT_SECRET) {
 
 const DEFAULT_JWT_EXPIRATION = "1h";
 
-export const generateToken = (user) => {
-    if (!user || typeof user.id !== "number" || typeof user.role !== "string") {
-        throw new Error("Invalid user data. Expected an object with 'id' (number) and 'role' (string).");
+export const generateToken = ({id, role}) => {
+    if (typeof id !== "number" || typeof role !== "string") {
+        throw new Error("Invalid user data. Expected 'id' (number) and 'role' (string).");
     }
-    return jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRATION || DEFAULT_JWT_EXPIRATION,
+    return jwt.sign({ id, role }, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRATION ?? DEFAULT_JWT_EXPIRATION,
     });
 };
 
