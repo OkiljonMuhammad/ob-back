@@ -10,9 +10,8 @@ const getProfile = async (req, res) => {
         const userProfile = await User.findByPk(user.id, {
             attributes: ["id", "username", "email", "role", "isBlocked", "createdAt", "updatedAt"],
         });
-
         if (!userProfile) {
-            return res.status(404).json({ message: "User not found" });
+            return res.status(404).json({ message: "User not found." });
         }
 
         res.status(200).json({
