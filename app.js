@@ -3,6 +3,7 @@ import morgan from "morgan";
 import authRoutes from "./routes/authRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import templateRoutes from "./routes/templateRoutes.js";
 import rateLimiter from "./middleware/rateLimiter.js";
 
 const app = express();
@@ -14,5 +15,6 @@ app.use(rateLimiter);
 app.use("/api/auth", authRoutes);
 app.use("/api/user", profileRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api", templateRoutes);
 
 export default app;

@@ -1,7 +1,6 @@
 import express from "express";
 import { authenticateToken, authorizeRole } from "../middleware/authMiddleware.js";
 import getAllUsers from "../controllers/adminControllers/getAllUsers.js";
-import getAllTemplates from "../controllers/adminControllers/getAllTemplates.js";
 import toggleUserBlock from "../controllers/adminControllers/toggleUserBlock.js";
 import toggleUserRole from "../controllers/adminControllers/toggleUserRole.js";
 import deleteUser from "../controllers/adminControllers/deleteUser.js";
@@ -25,8 +24,5 @@ router.delete("/users/:userId/delete", authenticateToken, authorizeRole(USER_ROL
 
 // PATCH /api/admin/users/:userId/hardDelete - hard delete a user (admin-only)
 router.delete("/users/:userId/hardDelete", authenticateToken, authorizeRole(USER_ROLE), hardDeleteUser);
-
-// GET /api/admin/templates - Get all templates (admin-only)
-router.get("/templates", authenticateToken, authorizeRole(USER_ROLE), getAllTemplates);
 
 export default router;
