@@ -3,9 +3,9 @@ import User from "../../models/User.js";
 
 const deleteTemplate = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { templateId } = req.params;
 
-    const template = await Template.findByPk(id);
+    const template = await Template.findByPk(templateId);
 
     if (!template) {
       return res.status(404).json({ message: "Template not found" });
@@ -13,7 +13,7 @@ const deleteTemplate = async (req, res) => {
 
     const user = await User.findByPk(req.user.id);
 
-    if (!user || !user.canDelete(template.userId)) {
+    if (!user || !user.hasAccess(template.userId)) {
       return res.status(403).json({ message: "You are not authorized to delete this template" });
     }
 

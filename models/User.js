@@ -83,11 +83,7 @@ User.prototype.isAdmin = function () {
   return this.role === process.env.ADMIN_ROLE;
 };
 
-User.prototype.canEdit = function (userId) {
-  return this.isAdmin() || this.id === userId;
-};
-
-User.prototype.canDelete = function (userId) {
+User.prototype.hasAccess = function (userId) {
   return this.isAdmin() || this.id === userId;
 };
 
