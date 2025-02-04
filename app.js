@@ -15,6 +15,6 @@ app.use(rateLimiter);
 app.use("/api/auth", authRoutes);
 app.use("/api/user", profileRoutes);
 app.use("/api/admin", adminRoutes);
-app.use("/api", templateRoutes);
+app.use("/api/template", templateRoutes);
 
 export default app;

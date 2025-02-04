@@ -19,10 +19,10 @@ router.patch("/users/:userId/block", authenticateToken, authorizeRole(USER_ROLE)
 // PATCH /api/admin/users/:userId/role - Promote or demote a user (admin-only)
 router.patch("/users/:userId/role", authenticateToken, authorizeRole(USER_ROLE), toggleUserRole);
 
-// PATCH /api/admin/users/:userId/delete - soft delete a user (admin-only)
-router.delete("/users/:userId/delete", authenticateToken, authorizeRole(USER_ROLE), deleteUser);
+// PATCH /api/admin/users/:userId - soft delete a user (admin-only)
+router.delete("/users/:userId", authenticateToken, authorizeRole(USER_ROLE), deleteUser);
 
-// PATCH /api/admin/users/:userId/hardDelete - hard delete a user (admin-only)
-router.delete("/users/:userId/hardDelete", authenticateToken, authorizeRole(USER_ROLE), hardDeleteUser);
+// PATCH /api/admin/users/:userId/delete - hard delete a user (admin-only)
+router.delete("/users/:userId/delete", authenticateToken, authorizeRole(USER_ROLE), hardDeleteUser);
 
 export default router;

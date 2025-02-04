@@ -82,8 +82,12 @@ User.prototype.isAdmin = function () {
   return this.role === "admin";
 };
 
-User.prototype.canEditTemplate = function (templateOwnerId) {
-  return this.isAdmin() || this.id === templateOwnerId;
+User.prototype.canEdit = function (userId) {
+  return this.isAdmin() || this.id === userId;
+};
+
+User.prototype.canDelete = function (userId) {
+  return this.isAdmin() || this.id === userId;
 };
 
 User.prototype.canDeleteUser = function (targetUser) {

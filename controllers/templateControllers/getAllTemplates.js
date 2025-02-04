@@ -5,23 +5,22 @@ const getAllTemplates = async (req, res) => {
   try {
     const { page = 1, limit = 10, topic, search } = req.query;
     const parsedLimit = parseInt(limit);
-
     const whereClause = {};
+
     if (topic) {
       whereClause.topic = topic;
     }
     if (search) {
       whereClause[Op.or] = [
         { title: { [Op.like]: `%${search}%` } },
-        { description: { [Op.like]: `%${search}%` } },
-        { topic: { [Op.like]: `%${search}%` } },
       ];
     }
 
-    if (req.user.role !== "admin") {
+    if (req.user.isAdmin()) {
+    } else {
       whereClause[Op.or] = [
         { isPublic: true }, 
-        { userId: req.user.id }
+        { userId: req.user.id }, 
       ];
     }
 
