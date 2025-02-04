@@ -1,6 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
 import bcrypt from "bcrypt";
+import "dotenv/config";
 
 const User = sequelize.define(
   "User",
@@ -79,7 +80,7 @@ const User = sequelize.define(
 
 // Utility methods
 User.prototype.isAdmin = function () {
-  return this.role === "admin";
+  return this.role === process.env.ADMIN_ROLE;
 };
 
 User.prototype.canEdit = function (userId) {

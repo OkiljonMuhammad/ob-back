@@ -7,16 +7,19 @@ import deleteTemplate from "../controllers/templateControllers/deleteTemplate.js
 
 const router = express.Router();
 
-// GET /api/template/templates - Get all templates
+// GET /api/template/templates - Get all templates (admins and owners)
 router.get("/templates", authenticateToken, getAllTemplates);
+
+// GET /api/template/public - Get all public templates (unauthorized users)
+router.get("/public", getAllTemplates);
 
 // POST /api/template/create - Create a template
 router.post("/create", authenticateToken, createTemplate);
 
 // PUT /api/template/:templateId - update a template
-router.put("/:templateId", authenticateToken, updateTemplate);
+router.put("/:id", authenticateToken, updateTemplate);
 
 // DELETE /api/template/:templateId - Delete a template
-router.delete("/:templateId", authenticateToken, deleteTemplate);
+router.delete("/:id", authenticateToken, deleteTemplate);
 
 export default router;

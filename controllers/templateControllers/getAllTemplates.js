@@ -1,5 +1,6 @@
 import Template from "../../models/Template.js";
 import { Op } from "sequelize";
+import "dotenv/config";
 
 const getAllTemplates = async (req, res) => {
   try {
@@ -10,18 +11,28 @@ const getAllTemplates = async (req, res) => {
     if (topic) {
       whereClause.topic = topic;
     }
+
+    const filters = [];
+
     if (search) {
-      whereClause[Op.or] = [
-        { title: { [Op.like]: `%${search}%` } },
-      ];
+      filters.push({ title: { [Op.like]: `%${search}%` } });
     }
 
-    if (req.user.isAdmin()) {
-    } else {
-      whereClause[Op.or] = [
-        { isPublic: true }, 
-        { userId: req.user.id }, 
-      ];
+    // For unauthorized users (only public templates)
+    if (!req.user) {
+      filters.push({ isPublic: true });
+    } 
+    // For admins (see all templates)
+    else if (req.user.role === process.env.ADMIN_ROLE) {
+      // No restrictions needed for admins
+    } 
+    // For owners (see their own templates)
+    else {
+      filters.push({ [Op.or]: [{ userId: req.user.id }] });
+    }
+
+    if (filters.length > 0) {
+      whereClause[Op.and] = filters;
     }
 
     const templates = await Template.findAndCountAll({

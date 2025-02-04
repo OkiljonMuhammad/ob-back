@@ -8,7 +8,7 @@ const createTemplate = async (req, res) => {
             return res.status(400).json({ message: "Title is required." });
         }
 
-        const newTemplate = Template.create({
+        const newTemplate = await Template.create({
             title, 
             description, 
             topic, 
@@ -19,8 +19,8 @@ const createTemplate = async (req, res) => {
         });
 
         res.status(201).json({
-            message: "Template created successfully.",
-            template: newTemplate,
+        message: "Template created successfully.",
+        template: newTemplate,
         });
     } catch (error) {
         console.error("Error creating template:", error);

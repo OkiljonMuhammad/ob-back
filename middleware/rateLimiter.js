@@ -1,4 +1,5 @@
 import rateLimit from "express-rate-limit";
+import "dotenv/config";
 
 const rateLimiter = rateLimit({
     windowMs: 60 * 1000, 
@@ -6,7 +7,7 @@ const rateLimiter = rateLimit({
         if (!req.user || !req.user.role) {
             return 100;
         }
-        return req.user.role.toLowerCase() === "admin" ? 500 : 100;
+        return req.user.role.toLowerCase() === process.env.ADMIN_ROLE ? 500 : 100;
     },
     keyGenerator: (req) => {
         return req.user?.id || req.ip;
