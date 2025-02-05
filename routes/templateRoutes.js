@@ -29,7 +29,7 @@ router.delete("/:templateId", authenticateToken, deleteTemplate);
 // POST /api/template/:templateId/like - like a template
 router.post("/:templateId/like", authenticateToken, likeTemplate);
 
-// DELETE /api/template/:templateId/like - Delete a template
+// DELETE /api/template/:templateId/like - Delete a like
 router.delete("/:templateId/like", authenticateToken, removeLike);
 
 // GET /api/template/:templateId/like/count - get like count of a template

@@ -1,0 +1,32 @@
+import Comment from "../../models/Comment.js";
+
+const updateComment = async (req, res) => {
+  try {
+    const { commentId } = req.params;
+    const { content } = req.body;
+
+    const comment = await Comment.findByPk(commentId);
+
+    if (!comment) {
+      return res.status(404).json({ message: "Comment not found" });
+    }
+
+    if (!req.user.isAdmin() && comment.userId !== req.user.id) {
+      return res.status(403).json({ message: "You are not authorized to update this comment" });
+    }
+
+    await comment.update({
+      content: content ?? comment.content,
+    });
+
+    res.status(200).json({
+      message: "Comment updated successfully",
+      comment,
+    });
+  } catch (error) {
+    console.error("Error updating comment:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export default updateComment;
