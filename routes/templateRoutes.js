@@ -4,10 +4,6 @@ import getAllTemplates from "../controllers/templateControllers/getAllTemplates.
 import createTemplate from "../controllers/templateControllers/createTemplate.js";
 import updateTemplate from "../controllers/templateControllers/updateTemplate.js";
 import deleteTemplate from "../controllers/templateControllers/deleteTemplate.js";
-import likeTemplate from "../controllers/templateControllers/likeTemplate.js";
-import removeLike from "../controllers/templateControllers/removeLike.js";
-import getTemplateLikeCount from "../controllers/templateControllers/getTemplateLikeCount.js";
-import getTemplateLikes from "../controllers/templateControllers/getTemplateLikes.js";
 
 const router = express.Router();
 
@@ -26,15 +22,4 @@ router.put("/:templateId", authenticateToken, updateTemplate);
 // DELETE /api/template/:templateId - Delete a template
 router.delete("/:templateId", authenticateToken, deleteTemplate);
 
-// POST /api/template/:templateId/like - like a template
-router.post("/:templateId/like", authenticateToken, likeTemplate);
-
-// DELETE /api/template/:templateId/like - Delete a like
-router.delete("/:templateId/like", authenticateToken, removeLike);
-
-// GET /api/template/:templateId/like/count - get like count of a template
-router.get("/:templateId/like/count", authenticateToken, getTemplateLikeCount);
-
-// GET /api/template/likes/ - get like count of a template
-router.get("/:templateId/likes", authenticateToken, getTemplateLikes);
 export default router;

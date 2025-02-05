@@ -1,4 +1,5 @@
 import Comment from "../../models/Comment.js";
+import "dotenv/config";
 
 const updateComment = async (req, res) => {
   try {
@@ -11,7 +12,10 @@ const updateComment = async (req, res) => {
       return res.status(404).json({ message: "Comment not found" });
     }
 
-    if (!req.user.isAdmin() && comment.userId !== req.user.id) {
+    const isAdmin = req.user.role === process.env.ADMIN_ROLE;
+    const isOwner = req.user.id === comment.userId;
+
+    if (!isAdmin && !isOwner) {
       return res.status(403).json({ message: "You are not authorized to update this comment" });
     }
 

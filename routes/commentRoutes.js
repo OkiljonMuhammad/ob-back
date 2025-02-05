@@ -22,4 +22,5 @@ router.get("/:templateId/count", getTemplateCommentCount);
 
 // GET /api/comment/templateId/comments/ - get all comments of a template
 router.get("/:templateId/comments", getTemplateComments);
+
 export default router;
