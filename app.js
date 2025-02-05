@@ -9,6 +9,7 @@ import commentRoutes from "./routes/commentRoutes.js"
 import likeRoutes from "./routes/likeRoutes.js"
 import templateAccessRoutes from "./routes/templateAccessRoutes.js"
 import questionRoutes from "./routes/questionRoutes.js"
+import formRoutes from "./routes/formRoutes.js"
 
 const app = express();
 app.use(express.json());
@@ -24,5 +25,6 @@ app.use("/api/comment", commentRoutes);
 app.use("/api/like", likeRoutes);
 app.use("/api/template", templateAccessRoutes);
 app.use("/api/question", questionRoutes);
+app.use("/api/form", formRoutes);
 
 export default app;
