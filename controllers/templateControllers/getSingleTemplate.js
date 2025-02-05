@@ -5,9 +5,8 @@ import "dotenv/config";
 
 export const getSingleTemplate = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { templateId } = req.params;
 
-    // Define access control filters
     const whereClause = {};
     const filters = [];
 
@@ -29,7 +28,7 @@ export const getSingleTemplate = async (req, res) => {
     }
 
     const template = await Template.findOne({
-      where: { id, ...whereClause },
+      where: { templateId, ...whereClause },
       attributes: ["id", "title", "description", "topic", "image", "isPublic", "tags", "userId"],
     });
 
