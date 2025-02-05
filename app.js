@@ -7,6 +7,7 @@ import templateRoutes from "./routes/templateRoutes.js";
 import rateLimiter from "./middleware/rateLimiter.js";
 import commentRoutes from "./routes/commentRoutes.js"
 import likeRoutes from "./routes/likeRoutes.js"
+import templateAccessRoutes from "./routes/templateAccessRoutes.js"
 
 const app = express();
 app.use(express.json());
@@ -20,5 +21,6 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/template", templateRoutes);
 app.use("/api/comment", commentRoutes);
 app.use("/api/like", likeRoutes);
+app.use("/api/template", templateAccessRoutes);
 
 export default app;

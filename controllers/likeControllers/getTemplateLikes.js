@@ -19,6 +19,7 @@ const getTemplateLikes = async (req, res) => {
       return res.status(403).json({ 
         message: "You are not authorized to get template likes" })
     }
+    
     const { rows, count } = await Likes.findAndCountAll({
       where: { templateId },
       attributes: ["id", "userId", "createdAt"],

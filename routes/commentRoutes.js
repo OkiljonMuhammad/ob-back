@@ -8,13 +8,13 @@ import getTemplateCommentCount from "../controllers/commentControllers/getTempla
 
 const router = express.Router();
 
-// POST /api/comment/:templateId - comment a template
+// POST /api/comment/:templateId - comment a template 
 router.post("/:templateId", authenticateToken, createComment);
 
-// PUT /api/comment/:commentId - update a comment
+// PUT /api/comment/:commentId - update a comment (admins and owners)
 router.put("/:commentId", authenticateToken, updateComment);
 
-// DELETE /api/comment/:commentId - Delete a comment
+// DELETE /api/comment/:commentId - Delete a comment (admins and owners)
 router.delete("/:commentId", authenticateToken, deleteComment);
 
 // GET /api/comment/:templateId/count - get comment count of a template
