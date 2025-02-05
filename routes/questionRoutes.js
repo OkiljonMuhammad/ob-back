@@ -1,9 +1,10 @@
 import express from "express";
-import addQuestions from "../controllers/questionControllers/addQuestion";
-import getSingleQuestion from "../controllers/questionControllers/getSingleQuestion";
-import updateQuestion from "../controllers/questionControllers/updateQuestion";
-import updateQuestionOrder from "../controllers/questionControllers/updateQuestionOrder";
-import deleteQuestion from "../controllers/questionControllers/deleteQuestion";
+import { authenticateToken } from "../middleware/authMiddleware.js";
+import addQuestions from "../controllers/questionControllers/addQuestion.js";
+import getSingleQuestion from "../controllers/questionControllers/getSingleQuestion.js";
+import updateQuestion from "../controllers/questionControllers/updateQuestion.js";
+import updateQuestionOrder from "../controllers/questionControllers/updateQuestionOrder.js";
+import deleteQuestion from "../controllers/questionControllers/deleteQuestion.js";
 
 const router = express.Router();
 
