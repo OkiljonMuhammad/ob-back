@@ -1,4 +1,4 @@
-import Comment from "../../models/Comment.js";
+import Comment from '../../models/Comment.js';
 
 const createComment = async (req, res) => {
   try {
@@ -6,7 +6,7 @@ const createComment = async (req, res) => {
     const { content } = req.body;
 
     if (!content) {
-      return res.status(400).json({ message: "Comment content is required" });
+      return res.status(400).json({ message: 'Comment content is required' });
     }
 
     const newComment = await Comment.create({
@@ -16,12 +16,12 @@ const createComment = async (req, res) => {
     });
 
     res.status(201).json({
-      message: "Comment created successfully",
+      message: 'Comment created successfully',
       comment: newComment,
     });
   } catch (error) {
-    console.error("Error creating comment:", error);
-    res.status(500).json({ message: "Internal server error" });
+    console.error('Error creating comment:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 

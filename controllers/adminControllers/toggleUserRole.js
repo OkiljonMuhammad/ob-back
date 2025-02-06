@@ -1,18 +1,19 @@
-import User from "../../models/User.js";
-import AdminLog from "../../models/AdminLog.js";
+import User from '../../models/User.js';
+import AdminLog from '../../models/AdminLog.js';
 
-const ADMIN_ROLE = "admin";
-const DEFAULT_USER_ROLE = "user";
+const ADMIN_ROLE = 'admin';
+const DEFAULT_USER_ROLE = 'user';
 
 const toggleUserRole = async (req, res) => {
   try {
     const { userId } = req.params;
     const user = await User.unscoped().findByPk(userId);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: 'User not found' });
     }
 
-    user.role = user.role === DEFAULT_USER_ROLE ? ADMIN_ROLE : DEFAULT_USER_ROLE;
+    user.role =
+      user.role === DEFAULT_USER_ROLE ? ADMIN_ROLE : DEFAULT_USER_ROLE;
     await user.save();
 
     await AdminLog.create({
@@ -22,7 +23,10 @@ const toggleUserRole = async (req, res) => {
     });
 
     res.status(200).json({
-      message: user.role === ADMIN_ROLE ? "User promoted to admin successfully" : "User demoted to user successfully",
+      message:
+        user.role === ADMIN_ROLE
+          ? 'User promoted to admin successfully'
+          : 'User demoted to user successfully',
       user: {
         id: user.id,
         username: user.username,
@@ -32,8 +36,8 @@ const toggleUserRole = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Error toggling user role:", error);
-    res.status(500).json({ message: "Internal server error" });
+    console.error('Error toggling user role:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 

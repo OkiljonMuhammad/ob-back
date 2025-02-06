@@ -1,12 +1,12 @@
-import User from "../../models/User.js";
-import AdminLog from "../../models/AdminLog.js";
+import User from '../../models/User.js';
+import AdminLog from '../../models/AdminLog.js';
 
 const toggleUserBlock = async (req, res) => {
   try {
     const { userId } = req.params;
     const user = await User.unscoped().findByPk(userId);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: 'User not found' });
     }
 
     user.isBlocked = !user.isBlocked;
@@ -19,7 +19,9 @@ const toggleUserBlock = async (req, res) => {
     });
 
     res.status(200).json({
-      message: user.isBlocked ? "User blocked successfully" : "User unblocked successfully",
+      message: user.isBlocked
+        ? 'User blocked successfully'
+        : 'User unblocked successfully',
       user: {
         id: user.id,
         username: user.username,
@@ -29,8 +31,8 @@ const toggleUserBlock = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Error toggling user block status:", error);
-    res.status(500).json({ message: "Internal server error" });
+    console.error('Error toggling user block status:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 

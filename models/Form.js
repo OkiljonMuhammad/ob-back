@@ -1,41 +1,42 @@
-import { DataTypes } from "sequelize";
-import sequelize from "../config/database.js";
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/database.js';
 
-const Form = sequelize.define('Form', {
+const Form = sequelize.define(
+  'Form',
+  {
     id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
     },
     templateId: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: "Template",
-            key: "id",
-        },
-        allowNull: false,
-        onDelete: "CASCADE",
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Template',
+        key: 'id',
+      },
+      allowNull: false,
+      onDelete: 'CASCADE',
     },
     userId: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: "User",
-            key: "id",
-        },
-        allowNull: false,
-        onDelete: "CASCADE",
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'User',
+        key: 'id',
+      },
+      allowNull: false,
+      onDelete: 'CASCADE',
     },
     answers: {
-        type: DataTypes.JSON,
-        allowNull: false,
+      type: DataTypes.JSON,
+      allowNull: false,
     },
     dateFilled: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
     },
-}, 
-{   timestamps: true, 
-    tableName: "Form",
-});
+  },
+  { timestamps: true, tableName: 'Form' }
+);
 
 export default Form;

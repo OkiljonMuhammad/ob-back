@@ -1,5 +1,5 @@
-import User from "../../models/User.js";
-import { Op } from "sequelize";
+import User from '../../models/User.js';
+import { Op } from 'sequelize';
 
 const getAllUsers = async (req, res) => {
   try {
@@ -14,27 +14,33 @@ const getAllUsers = async (req, res) => {
     }
 
     const users = await User.unscoped().findAndCountAll({
-      attributes: ["id", "username", "email", "role", "isBlocked"],
+      attributes: ['id', 'username', 'email', 'role', 'isBlocked'],
       where: whereClause,
       offset: (page - 1) * limit,
       limit: parseInt(limit),
-      paranoid: includeDeleted !== "true",
+      paranoid: includeDeleted !== 'true',
     });
 
     res.status(200).json({
-      message: "All users retrieved successfully",
+      message: 'All users retrieved successfully',
       users: users.rows,
       pagination: {
         total: users.count,
         page: parseInt(page),
         totalPages: Math.ceil(users.count / limit),
-        prevPage: page > 1 ? `/api/admin/users?page=${parseInt(page) - 1}&limit=${limit}` : null,
-        nextPage: page < Math.ceil(users.count / limit) ? `/api/admin/users?page=${parseInt(page) + 1}&limit=${limit}` : null,
+        prevPage:
+          page > 1
+            ? `/api/admin/users?page=${parseInt(page) - 1}&limit=${limit}`
+            : null,
+        nextPage:
+          page < Math.ceil(users.count / limit)
+            ? `/api/admin/users?page=${parseInt(page) + 1}&limit=${limit}`
+            : null,
       },
     });
   } catch (error) {
-    console.error("Error fetching users:", error);
-    res.status(500).json({ message: "Internal server error" });
+    console.error('Error fetching users:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 

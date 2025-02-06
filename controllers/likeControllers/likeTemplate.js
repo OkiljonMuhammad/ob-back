@@ -1,4 +1,4 @@
-import Likes from "../../models/Likes.js";
+import Likes from '../../models/Likes.js';
 
 const likeTemplate = async (req, res) => {
   try {
@@ -12,7 +12,9 @@ const likeTemplate = async (req, res) => {
     });
 
     if (existingLike) {
-      return res.status(400).json({ message: "You have already liked this template" });
+      return res
+        .status(400)
+        .json({ message: 'You have already liked this template' });
     }
 
     const newLike = await Likes.create({
@@ -21,12 +23,12 @@ const likeTemplate = async (req, res) => {
     });
 
     res.status(201).json({
-      message: "Template liked successfully",
+      message: 'Template liked successfully',
       like: newLike,
     });
   } catch (error) {
-    console.error("Error liking template:", error);
-    res.status(500).json({ message: "Internal server error" });
+    console.error('Error liking template:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 

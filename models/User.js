@@ -1,10 +1,10 @@
-import { DataTypes } from "sequelize";
-import sequelize from "../config/database.js";
-import bcrypt from "bcrypt";
-import "dotenv/config";
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/database.js';
+import bcrypt from 'bcrypt';
+import 'dotenv/config';
 
 const User = sequelize.define(
-  "User",
+  'User',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -15,12 +15,12 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
       unique: {
-        msg: "Username must be unique",
+        msg: 'Username must be unique',
       },
       validate: {
         len: {
           args: [3, 50],
-          msg: "Username must be between 3 and 50 characters",
+          msg: 'Username must be between 3 and 50 characters',
         },
       },
       index: true,
@@ -29,11 +29,11 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
       unique: {
-        msg: "Email must be unique",
+        msg: 'Email must be unique',
       },
       validate: {
         isEmail: {
-          msg: "Invalid email format",
+          msg: 'Invalid email format',
         },
       },
       index: true,
@@ -44,17 +44,17 @@ const User = sequelize.define(
       validate: {
         len: {
           args: [6, 100],
-          msg: "Password must be at least 6 characters",
+          msg: 'Password must be at least 6 characters',
         },
       },
     },
     role: {
       type: DataTypes.STRING,
-      defaultValue: "user",
+      defaultValue: 'user',
       validate: {
         isIn: {
-          args: [["user", "admin"]],
-          msg: "Invalid role",
+          args: [['user', 'admin']],
+          msg: 'Invalid role',
         },
       },
     },
@@ -65,8 +65,8 @@ const User = sequelize.define(
   },
   {
     timestamps: true,
-    paranoid: true, 
-    tableName: "User",
+    paranoid: true,
+    tableName: 'User',
     defaultScope: {
       where: { isBlocked: false },
     },
@@ -101,18 +101,18 @@ User.beforeCreate(async (user, options) => {
     const hashedPassword = await bcrypt.hash(user.password, 10);
     user.password = hashedPassword;
   } catch (error) {
-    console.error("Error hashing password:", error);
+    console.error('Error hashing password:', error);
     throw error;
   }
 });
 
 User.beforeUpdate(async (user, options) => {
-  if (user.changed("password")) {
+  if (user.changed('password')) {
     try {
       const hashedPassword = await bcrypt.hash(user.password, 10);
       user.password = hashedPassword;
     } catch (error) {
-      console.error("Error hashing password:", error);
+      console.error('Error hashing password:', error);
       throw error;
     }
   }

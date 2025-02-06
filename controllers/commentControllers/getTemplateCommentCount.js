@@ -1,4 +1,4 @@
-import Comment from "../../models/Comment.js";
+import Comment from '../../models/Comment.js';
 
 const getTemplateCommentCount = async (req, res) => {
   try {
@@ -9,12 +9,12 @@ const getTemplateCommentCount = async (req, res) => {
     });
 
     res.status(200).json({
-      message: "Template comment count retrieved successfully",
+      message: 'Template comment count retrieved successfully',
       commentCount,
     });
   } catch (error) {
-    console.error("Error fetching template comment count:", error);
-    res.status(500).json({ message: "Internal server error" });
+    console.error('Error fetching template comment count:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 

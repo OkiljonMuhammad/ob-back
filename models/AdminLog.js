@@ -1,7 +1,9 @@
-import { DataTypes } from "sequelize";
-import sequelize from "../config/database.js";
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/database.js';
 
-const AdminLog = sequelize.define("AdminLog",{
+const AdminLog = sequelize.define(
+  'AdminLog',
+  {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -26,7 +28,7 @@ const AdminLog = sequelize.define("AdminLog",{
   },
   {
     timestamps: true,
-    tableName: "AdminLog",
+    tableName: 'AdminLog',
   }
 );
 

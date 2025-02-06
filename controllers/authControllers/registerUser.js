@@ -1,7 +1,7 @@
-import { generateToken } from "../../utils/jwt.js";
-import User from "../../models/User.js";
+import { generateToken } from '../../utils/jwt.js';
+import User from '../../models/User.js';
 
-const DEFAULT_ROLE = "user";
+const DEFAULT_ROLE = 'user';
 
 const registerUser = async (req, res) => {
   try {
@@ -9,25 +9,31 @@ const registerUser = async (req, res) => {
 
     const userWithEmail = await User.unscoped().findOne({ where: { email } });
     if (userWithEmail) {
-      return res.status(400).json({ message: "User with this email already exists." });
+      return res
+        .status(400)
+        .json({ message: 'User with this email already exists.' });
     }
 
-    const userWithUsername = await User.unscoped().findOne({ where: { username } });
+    const userWithUsername = await User.unscoped().findOne({
+      where: { username },
+    });
     if (userWithUsername) {
-      return res.status(400).json({ message: "User with this username already exists." });
+      return res
+        .status(400)
+        .json({ message: 'User with this username already exists.' });
     }
 
     const newUser = await User.create({
       username,
       email,
-      password, 
+      password,
       role: role ?? DEFAULT_ROLE,
     });
 
     const token = generateToken({ id: newUser.id, role: newUser.role });
 
     res.status(201).json({
-      message: "User registered successfully",
+      message: 'User registered successfully',
       token,
       user: {
         id: newUser.id,
@@ -37,8 +43,8 @@ const registerUser = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Error during registration:", error);
-    res.status(500).json({ message: "Internal server error" });
+    console.error('Error during registration:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
