@@ -10,9 +10,17 @@ import likeRoutes from './routes/likeRoutes.js';
 import templateAccessRoutes from './routes/templateAccessRoutes.js';
 import questionRoutes from './routes/questionRoutes.js';
 import formRoutes from './routes/formRoutes.js';
+import cors from 'cors';
+import 'dotenv/config';
 
 const app = express();
 app.use(express.json());
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN,
+    credentials: true,
+  })
+);
 app.use(morgan('combined'));
 app.use(rateLimiter);
 
