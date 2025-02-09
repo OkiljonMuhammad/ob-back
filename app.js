@@ -10,6 +10,8 @@ import likeRoutes from './routes/likeRoutes.js';
 import templateAccessRoutes from './routes/templateAccessRoutes.js';
 import questionRoutes from './routes/questionRoutes.js';
 import formRoutes from './routes/formRoutes.js';
+import tagRoutes from './routes/tagRoutes.js'
+import topicRoutes from './routes/topicRoutes.js'
 import cors from 'cors';
 import 'dotenv/config';
 
@@ -34,5 +36,7 @@ app.use('/api/like', likeRoutes);
 app.use('/api/template', templateAccessRoutes);
 app.use('/api/question', questionRoutes);
 app.use('/api/form', formRoutes);
+app.use('/api/tag', tagRoutes);
+app.use('/api/topic', topicRoutes);
 
 export default app;

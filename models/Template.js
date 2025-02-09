@@ -17,9 +17,14 @@ const Template = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    topic: {
-      type: DataTypes.STRING,
-      allowNull: true,
+    topicId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Topic',
+        key: 'id',
+      },
+      onDelete: 'CASCADE',
     },
     image: {
       type: DataTypes.STRING,
@@ -29,10 +34,6 @@ const Template = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: true,
     },
-    tags: {
-      type: DataTypes.JSON,
-      defaultValue: [],
-    },
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -41,6 +42,10 @@ const Template = sequelize.define(
         key: 'id',
       },
       onDelete: 'CASCADE',
+    },
+    tagIds: {
+      type: DataTypes.JSON,
+      allowNull: true,
     },
   },
   { timestamps: true, tableName: 'Template' }

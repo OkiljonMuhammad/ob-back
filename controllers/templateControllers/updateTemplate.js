@@ -4,7 +4,7 @@ import User from '../../models/User.js';
 const updateTemplate = async (req, res) => {
   try {
     const { templateId } = req.params;
-    const { title, description, topic, image, isPublic, tags } = req.body;
+    const { title, description, topicId, image, isPublic, tags } = req.body;
     const template = await Template.findByPk(templateId);
 
     if (!template) {
@@ -22,7 +22,7 @@ const updateTemplate = async (req, res) => {
     await template.update({
       title: title ?? template.title,
       description: description ?? template.description,
-      topic: topic ?? template.topic,
+      topicId: topicId ?? template.topicId,
       image: image ?? template.image,
       isPublic: isPublic !== undefined ? isPublic : template.isPublic,
       tags: tags ?? template.tags,
