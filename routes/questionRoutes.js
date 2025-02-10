@@ -11,8 +11,8 @@ const router = express.Router();
 // GET /api/question/:questionId - Get a single question
 router.get('/:questionId', authenticateToken, getSingleQuestion);
 
-// POST /api/question/add - Create question/questions
-router.post('/add', authenticateToken, addQuestions);
+// POST /api/question/:templateId - Create question/questions
+router.post('/:templateId', authenticateToken, addQuestions);
 
 // PUT /api/question/:questionId - update a question
 router.put('/:questionId', authenticateToken, updateQuestion);
