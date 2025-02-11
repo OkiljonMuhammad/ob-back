@@ -47,6 +47,14 @@ const Template = sequelize.define(
       type: DataTypes.JSON,
       allowNull: true,
     },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
   },
   { timestamps: true, tableName: 'Template' }
 );

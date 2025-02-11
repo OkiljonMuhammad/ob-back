@@ -1,4 +1,4 @@
-import Template from '../../models/Template.js';
+import db from '../../models/index.js';
 import { Op } from 'sequelize';
 import 'dotenv/config';
 
@@ -35,20 +35,31 @@ const getAllTemplates = async (req, res) => {
       whereClause[Op.and] = filters;
     }
 
-    const templates = await Template.findAndCountAll({
+    const templates = await db.Template.findAndCountAll({
       attributes: [
         'id',
         'title',
         'description',
-        'topic',
         'image',
         'isPublic',
-        'tags',
         'userId',
+        'createdAt',
       ],
       where: whereClause,
+      include: [
+        {
+          model: db.Topic, // Include the Topic model
+          attributes: ['id', 'topicName'], // Only fetch necessary fields
+        },
+        {
+          model: db.Tag, // Include the Topic model
+          attributes: ['id', 'tagName'],
+          through: { attributes: [] },
+        },
+      ],
       offset: (page - 1) * parsedLimit,
       limit: parsedLimit,
+      order: [['createdAt', 'DESC']],
     });
 
     res.status(200).json({
