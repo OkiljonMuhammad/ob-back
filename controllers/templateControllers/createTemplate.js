@@ -1,5 +1,4 @@
-import Template from '../../models/Template.js';
-import Tag from '../../models/Tag.js';
+import db from '../../models/index.js';
 
 const createTemplate = async (req, res) => {
   try {
@@ -17,7 +16,7 @@ const createTemplate = async (req, res) => {
     if (tags && Array.isArray(tags)) {
       const tagRecords = await Promise.all(
         tags.map(async (tagName) => {
-          const [tag] = await Tag.findOrCreate({
+          const [tag] = await db.Tag.findOrCreate({
             where: { tagName },
             defaults: { tagName },
           });
@@ -27,7 +26,7 @@ const createTemplate = async (req, res) => {
       tagIds = tagRecords.map((tag) => tag.id);
     }
 
-    const newTemplate = await Template.create({
+    const newTemplate = await db.Template.create({
       title,
       description,
       topicId: parsedTopicId,
@@ -37,7 +36,7 @@ const createTemplate = async (req, res) => {
       tagIds,
     });
 
-    const associatedTags = await Tag.findAll({
+    const associatedTags = await db.Tag.findAll({
       where: { id: tagIds },
     });
 

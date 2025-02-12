@@ -34,7 +34,25 @@ const getAllTemplates = async (req, res) => {
     if (filters.length > 0) {
       whereClause[Op.and] = filters;
     }
+    const include = [
+      {
+        model: db.Topic, // Include the Topic model
+        attributes: ['id', 'topicName'], // Only fetch necessary fields
+      },
+      {
+        model: db.Tag, // Include the Tag model
+        attributes: ['id', 'tagName'],
+        through: { attributes: [] }, // Exclude join table attributes
+      },
+    ];
 
+    // Include User model if the user is an admin
+    if (req.user && req.user.role === process.env.ADMIN_ROLE) {
+      include.push({
+        model: db.User, // Include the User model
+        attributes: ['id', 'username', 'role'], // Only fetch necessary fields
+      });
+    }
     const templates = await db.Template.findAndCountAll({
       attributes: [
         'id',
@@ -46,17 +64,7 @@ const getAllTemplates = async (req, res) => {
         'createdAt',
       ],
       where: whereClause,
-      include: [
-        {
-          model: db.Topic, // Include the Topic model
-          attributes: ['id', 'topicName'], // Only fetch necessary fields
-        },
-        {
-          model: db.Tag, // Include the Topic model
-          attributes: ['id', 'tagName'],
-          through: { attributes: [] },
-        },
-      ],
+      include,
       offset: (page - 1) * parsedLimit,
       limit: parsedLimit,
       order: [['createdAt', 'DESC']],
