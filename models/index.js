@@ -84,8 +84,14 @@ const defineAssociations = () => {
   db.Template.belongsTo(db.Topic, { foreignKey: 'topicId' });
 
   // Template and Tag (Many-to-Many)
-db.Template.belongsToMany(db.Tag, { through: db.TemplateTag, foreignKey: 'tagId' });
-db.Tag.belongsToMany(db.Template, { through: db.TemplateTag, foreignKey: 'tagId' });
+  db.Template.belongsToMany(db.Tag, {
+    through: db.TemplateTag,
+    foreignKey: 'tagId',
+  });
+  db.Tag.belongsToMany(db.Template, {
+    through: db.TemplateTag,
+    foreignKey: 'tagId',
+  });
 };
 
 // Export the Sequelize instance and all models

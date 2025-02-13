@@ -6,11 +6,11 @@ const addQuestions = async (req, res) => {
   const transaction = await sequelize.transaction();
   try {
     console.log('Raw Template ID:', req.params.templateId);
-const templateId = parseInt(req.params.templateId, 10);
-console.log('Parsed Template ID:', templateId);
-if (isNaN(templateId)) {
-  return res.status(400).json({ message: 'Invalid template ID' });
-}
+    const templateId = parseInt(req.params.templateId, 10);
+    console.log('Parsed Template ID:', templateId);
+    if (isNaN(templateId)) {
+      return res.status(400).json({ message: 'Invalid template ID' });
+    }
     const { questions } = req.body;
 
     // Validate questions
@@ -21,7 +21,9 @@ if (isNaN(templateId)) {
       for (const question of questions) {
         if (
           !question.type ||
-          !['single-line', 'multi-line', 'integer', 'checkbox'].includes(question.type) ||
+          !['single-line', 'multi-line', 'integer', 'checkbox'].includes(
+            question.type
+          ) ||
           !question.text ||
           typeof question.text !== 'string'
         ) {
@@ -62,7 +64,9 @@ if (isNaN(templateId)) {
     }));
 
     // Bulk create questions
-    const createdQuestions = await Question.bulkCreate(questionsToCreate, { transaction });
+    const createdQuestions = await Question.bulkCreate(questionsToCreate, {
+      transaction,
+    });
 
     await transaction.commit();
 
@@ -74,7 +78,10 @@ if (isNaN(templateId)) {
     await transaction.rollback();
     console.error('Error adding questions:', error);
     return res.status(500).json({
-      message: process.env.NODE_ENV === 'production' ? 'Internal server error' : error.message,
+      message:
+        process.env.NODE_ENV === 'production'
+          ? 'Internal server error'
+          : error.message,
     });
   }
 };

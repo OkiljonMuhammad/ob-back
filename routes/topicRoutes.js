@@ -1,7 +1,10 @@
 import express from 'express';
-import addTopic from '../controllers/topicControllers/addTopic.js'; 
-import getTopics from '../controllers/topicControllers/getTopics.js'; 
-import { authenticateToken, authorizeRole } from '../middleware/authMiddleware.js'; 
+import addTopic from '../controllers/topicControllers/addTopic.js';
+import getTopics from '../controllers/topicControllers/getTopics.js';
+import {
+  authenticateToken,
+  authorizeRole,
+} from '../middleware/authMiddleware.js';
 import 'dotenv/config';
 
 const router = express.Router();

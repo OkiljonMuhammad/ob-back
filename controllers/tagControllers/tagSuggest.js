@@ -6,7 +6,9 @@ const suggestTags = async (req, res) => {
     const { q } = req.query;
 
     if (!q || q.trim() === '') {
-      return res.status(400).json({ message: 'Query parameter "q" is required.' });
+      return res
+        .status(400)
+        .json({ message: 'Query parameter "q" is required.' });
     }
 
     const tags = await Tag.findAll({

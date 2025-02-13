@@ -1,17 +1,16 @@
-import Template from '../../models/Template.js';
-import User from '../../models/User.js';
+import db from '../../models/index.js';
 
 const deleteTemplate = async (req, res) => {
   try {
     const { templateId } = req.params;
 
-    const template = await Template.findByPk(templateId);
+    const template = await db.Template.findByPk(templateId);
 
     if (!template) {
       return res.status(404).json({ message: 'Template not found' });
     }
 
-    const user = await User.findByPk(req.user.id);
+    const user = await db.User.findByPk(req.user.id);
 
     if (!user || !user.hasAccess(template.userId)) {
       return res

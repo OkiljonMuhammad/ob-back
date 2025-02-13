@@ -37,7 +37,9 @@ const updateTemplate = async (req, res) => {
     const user = await db.User.findByPk(req.user.id, { transaction });
     if (!user || !user.hasAccess(template.userId)) {
       await transaction.rollback(); // Rollback the transaction
-      return res.status(403).json({ message: 'You are not authorized to update this template' });
+      return res
+        .status(403)
+        .json({ message: 'You are not authorized to update this template' });
     }
 
     // Update basic template fields
