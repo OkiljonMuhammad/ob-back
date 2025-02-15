@@ -7,7 +7,7 @@ const updateTemplate = async (req, res) => {
     const { title, description, topicId, image, isPublic, tagIds } = req.body;
 
     // Validate required fields
-    if (!templateId || !title || !description) {
+    if (!templateId || !title) {
       await transaction.rollback(); // Rollback the transaction
       return res.status(400).json({ message: 'Missing required fields' });
     }

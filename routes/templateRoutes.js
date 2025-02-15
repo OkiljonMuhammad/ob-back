@@ -11,8 +11,8 @@ const router = express.Router();
 // GET /api/template/templates - Get all templates (admins and owners)
 router.get('/templates', authenticateToken, getTemplates);
 
-// GET /api/template/public - Get all public templates (unauthorized users)
-router.get('/public', getTemplates);
+// GET /api/template/templates/public - Get all public templates (unauthorized users)
+router.get('/templates/public', getTemplates);
 
 // GET /api/template/:templateId - Get all templates (admins and owners)
 router.get('/:templateId', authenticateToken, getSingleTemplate);

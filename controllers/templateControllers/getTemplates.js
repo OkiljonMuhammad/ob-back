@@ -2,19 +2,32 @@ import db from '../../models/index.js';
 import { Op } from 'sequelize';
 import 'dotenv/config';
 
+// Helper function to parse and validate numbers
+const parseNumber = (value, defaultValue) => {
+  const parsed = parseInt(value, 10);
+  return isNaN(parsed) || parsed < 1 ? defaultValue : parsed;
+};
+
 const getAllTemplates = async (req, res) => {
   try {
-    const { page = 1, limit = 10, topic, search } = req.query;
-    const parsedLimit = parseInt(limit);
+    const { page: rawPage, limit: rawLimit, topic, search } = req.query;
+
+    // Parse and validate page and limit
+    const page = parseNumber(rawPage, 1); // Default to 1 if invalid
+    const limit = parseNumber(rawLimit, 10); // Default to 10 if invalid
+
+    // Calculate offset
+    const offset = (page - 1) * limit;
+
     const whereClause = {};
-
-    if (topic) {
-      whereClause.topic = topic;
-    }
-
     const filters = [];
 
+    if (topic) {
+      filters.push({ '$Topic.topicName$': topic }); // Filter by associated Topic model
+    }
+
     if (search) {
+      // Case-insensitive search for the title field
       filters.push({ title: { [Op.like]: `%${search}%` } });
     }
 
@@ -34,25 +47,20 @@ const getAllTemplates = async (req, res) => {
     if (filters.length > 0) {
       whereClause[Op.and] = filters;
     }
+
     const include = [
       {
-        model: db.Topic, // Include the Topic model
-        attributes: ['id', 'topicName'], // Only fetch necessary fields
+        model: db.Topic,
+        attributes: ['id', 'topicName'],
       },
       {
-        model: db.Tag, // Include the Tag model
-        attributes: ['id', 'tagName'],
-        through: { attributes: [] }, // Exclude join table attributes
+        model: db.User,
+        attributes: ['username'],
       },
     ];
 
     // Include User model if the user is an admin
-    if (req.user && req.user.role === process.env.ADMIN_ROLE) {
-      include.push({
-        model: db.User, // Include the User model
-        attributes: ['id', 'username', 'role'], // Only fetch necessary fields
-      });
-    }
+
     const templates = await db.Template.findAndCountAll({
       attributes: [
         'id',
@@ -65,8 +73,8 @@ const getAllTemplates = async (req, res) => {
       ],
       where: whereClause,
       include,
-      offset: (page - 1) * parsedLimit,
-      limit: parsedLimit,
+      offset,
+      limit,
       order: [['createdAt', 'DESC']],
     });
 
@@ -75,21 +83,18 @@ const getAllTemplates = async (req, res) => {
       templates: templates.rows,
       pagination: {
         total: templates.count,
-        page: parseInt(page),
-        totalPages: Math.ceil(templates.count / parsedLimit),
-        prevPage:
-          page > 1
-            ? `/api/templates?page=${parseInt(page) - 1}&limit=${parsedLimit}`
-            : null,
+        page,
+        totalPages: Math.ceil(templates.count / limit),
+        prevPage: page > 1 ? `/api/templates?page=${page - 1}&limit=${limit}` : null,
         nextPage:
-          page < Math.ceil(templates.count / parsedLimit)
-            ? `/api/templates?page=${parseInt(page) + 1}&limit=${parsedLimit}`
+          page < Math.ceil(templates.count / limit)
+            ? `/api/templates?page=${page + 1}&limit=${limit}`
             : null,
       },
     });
   } catch (error) {
     console.error('Error fetching templates:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: 'Internal server error', error: error.message });
   }
 };
 
