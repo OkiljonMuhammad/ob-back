@@ -8,9 +8,9 @@ const parseNumber = (value, defaultValue) => {
   return isNaN(parsed) || parsed < 1 ? defaultValue : parsed;
 };
 
-const getAllTemplates = async (req, res) => {
+const getTemplatesByTag = async (req, res) => {
   try {
-    const { page: rawPage, limit: rawLimit, tagId, topic, search } = req.query;
+    const { page: rawPage, limit: rawLimit, tagId } = req.query;
 
     // Parse and validate page and limit
     const page = parseNumber(rawPage, 1); // Default to 1 if invalid
@@ -23,23 +23,8 @@ const getAllTemplates = async (req, res) => {
     const filters = [];
 
     if (tagId) {
-      filters.push(
-        db.sequelize.where(
-          db.sequelize.fn('JSON_CONTAINS', db.sequelize.col('tagIds'), db.sequelize.literal(`'${tagId}'`)),
-          true
-        )
-      );
+      filters.push({ [Op.in]: [{ tagIds: tagId }] });
     }
-
-    if (topic) {
-      filters.push({ '$Topic.topicName$': topic }); // Filter by associated Topic model
-    }
-    const sanitizedSearch = search ? search.trim() : '';
-    if (sanitizedSearch) {
-      // Case-insensitive search for the title field
-      filters.push({ title: { [Op.like]: `%${sanitizedSearch}%` } });
-    }
-
     // For unauthorized users (only public templates)
     if (!req.user) {
       filters.push({ isPublic: true });
@@ -58,10 +43,6 @@ const getAllTemplates = async (req, res) => {
     }
 
     const include = [
-      {
-        model: db.Topic,
-        attributes: ['id', 'topicName'],
-      },
       {
         model: db.User,
         attributes: ['username'],
@@ -107,4 +88,4 @@ const getAllTemplates = async (req, res) => {
   }
 };
 
-export default getAllTemplates;
+export default getTemplatesByTag;
