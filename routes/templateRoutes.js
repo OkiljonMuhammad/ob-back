@@ -17,7 +17,7 @@ router.get('/templates/public', getTemplates);
 // GET /api/template/:templateId - Get all templates (admins and owners)
 router.get('/:templateId', authenticateToken, getSingleTemplate);
 
-// GET /api/template/public/:templateId - Get all public templates (unauthorized users)
+// GET /api/template/public/:templateId - Get public template (unauthorized users)
 router.get('/public/:templateId', getSingleTemplate);
 
 // POST /api/template/create - Create a template

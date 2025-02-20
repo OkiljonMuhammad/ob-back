@@ -51,12 +51,6 @@ const User = sequelize.define(
     role: {
       type: DataTypes.STRING,
       defaultValue: 'user',
-      validate: {
-        isIn: {
-          args: [['user', 'admin']],
-          msg: 'Invalid role',
-        },
-      },
     },
     isBlocked: {
       type: DataTypes.BOOLEAN,
@@ -85,10 +79,6 @@ User.prototype.isAdmin = function () {
 
 User.prototype.hasAccess = function (userId) {
   return this.isAdmin() || this.id === userId;
-};
-
-User.prototype.canDeleteUser = function (targetUser) {
-  return this.isAdmin() && targetUser.id !== this.id;
 };
 
 User.prototype.comparePassword = async function (candidatePassword) {

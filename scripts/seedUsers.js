@@ -1,12 +1,12 @@
-import User from '../models/User.js';
+import db from '../models/index.js';
 
 const seedUsers = async () => {
   try {
-    const newUser = await User.create({
-      username: 'john_doe',
-      email: 'john@example.com',
-      password: 'mySecurePassword123',
-      role: 'user',
+    const newUser = await db.User.create({
+      username: 'admin2',
+      email: 'admin2@gmail.com',
+      password: '123456',
+      role: 'admin',
     });
 
     console.log('New user created:', newUser);

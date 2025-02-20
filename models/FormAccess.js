@@ -1,19 +1,19 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
 
-const TemplateAccess = sequelize.define(
-  'TemplateAccess',
+const FormAccess = sequelize.define(
+  'FormAccess',
   {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    templateId: {
+    formId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Template',
+        model: 'Form',
         key: 'id',
       },
       onDelete: 'CASCADE',
@@ -28,7 +28,7 @@ const TemplateAccess = sequelize.define(
       onDelete: 'CASCADE',
     },
   },
-  { timestamps: true, tableName: 'TemplateAccess' }
+  { timestamps: true, tableName: 'FormAccess' }
 );
 
-export default TemplateAccess;
+export default FormAccess;

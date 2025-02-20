@@ -5,8 +5,12 @@ import getSingleQuestion from '../controllers/questionControllers/getSingleQuest
 import updateQuestion from '../controllers/questionControllers/updateQuestion.js';
 import updateQuestionOrder from '../controllers/questionControllers/updateQuestionOrder.js';
 import deleteQuestion from '../controllers/questionControllers/deleteQuestion.js';
+import getQuestions from '../controllers/questionControllers/getQuestions.js';
 
 const router = express.Router();
+
+// GET /api/question/questions/:templateId - Get all questions
+router.get('/questions/:templateId', authenticateToken, getQuestions);
 
 // GET /api/question/:questionId - Get a single question
 router.get('/:questionId', authenticateToken, getSingleQuestion);

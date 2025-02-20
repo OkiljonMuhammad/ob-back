@@ -1,9 +1,10 @@
 import { generateToken } from '../../utils/jwt.js';
 import User from '../../models/User.js';
+import AdminLog from '../../models/AdminLog.js';
 
 const DEFAULT_ROLE = 'user';
 const DEFAULT_BLOCK_STATUS = false;
-const registerUser = async (req, res) => {
+const createUser = async (req, res) => {
   try {
     const { username, email, password, role, isBlocked } = req.body;
 
@@ -31,10 +32,19 @@ const registerUser = async (req, res) => {
       isBlocked: isBlocked || DEFAULT_BLOCK_STATUS,
     });
 
+    
     const token = generateToken({ id: newUser.id, role: newUser.role });
 
+    if (req.user?.id) {
+      await AdminLog.create({
+        adminId: req.user.id,
+        action: "New user created",
+        details: { id: newUser.id, username: newUser.username, role: newUser.role },
+      });
+    }
+
     res.status(201).json({
-      message: 'User registered successfully',
+      message: 'User created successfully',
       token,
       user: {
         id: newUser.id,
@@ -44,10 +54,11 @@ const registerUser = async (req, res) => {
         isBlocked: newUser.isBlocked,
       },
     });
+
   } catch (error) {
     console.error('Error during registration:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
 
-export default registerUser;
+export default createUser;

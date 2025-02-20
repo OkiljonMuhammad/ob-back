@@ -1,25 +1,30 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
 
-const Form = sequelize.define(
-  'Form',
+const Answer = sequelize.define(
+  'Answer',
   {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    templateId: {
+    formId: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       references: {
-        model: 'Template',
+        model: 'Form',
         key: 'id',
       },
+      onDelete: 'CASCADE',
+    },
+    questionId: {
+      type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: 'Question',
+        key: 'id',
+      },
       onDelete: 'CASCADE',
     },
     userId: {
@@ -31,6 +36,10 @@ const Form = sequelize.define(
       allowNull: false,
       onDelete: 'CASCADE',
     },
+    response: {
+      type: DataTypes.JSON,
+      allowNull: false,
+    },
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
@@ -40,7 +49,7 @@ const Form = sequelize.define(
       defaultValue: DataTypes.NOW,
     },
   },
-  { timestamps: true, tableName: 'Form' }
+  { timestamps: true, tableName: 'Answer' }
 );
 
-export default Form;
+export default Answer;
