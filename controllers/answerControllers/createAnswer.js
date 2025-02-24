@@ -20,28 +20,6 @@ export const createAnswers = async (req, res) => {
         return res.status(404).json({ error: `Question ID ${questionId} not found` });
       }
 
-      // // Validate response based on question type
-      // switch (questionType) {
-      //   case 'single-line':
-      //   case 'multi-line':
-      //     if (typeof response !== 'string') {
-      //       return res.status(400).json({ error: `Response for Question ${questionId} must be a string` });
-      //     }
-      //     break;
-      //   case 'integer':
-      //     if (typeof response !== 'number' || !Number.isInteger(response)) {
-      //       return res.status(400).json({ error: `Response for Question ${questionId} must be an integer` });
-      //     }
-      //     break;
-      //   case 'checkbox':
-      //     if (!Array.isArray(response)) {
-      //       return res.status(400).json({ error: `Response for Question ${questionId} must be an array` });
-      //     }
-      //     break;
-      //   default:
-      //     return res.status(400).json({ error: `Invalid question type for Question ${questionId}` });
-      // }
-
       validAnswers.push({ formId, questionId, userId, response });
     }
 

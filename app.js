@@ -13,6 +13,7 @@ import formRoutes from './routes/formRoutes.js';
 import tagRoutes from './routes/tagRoutes.js';
 import topicRoutes from './routes/topicRoutes.js';
 import answerRoutes from './routes/answerRoutes.js';
+import imageRoutes from './routes/imageRoutes.js'
 import cors from 'cors';
 import 'dotenv/config';
 
@@ -41,5 +42,6 @@ app.use('/api/form', formRoutes);
 app.use('/api/tag', tagRoutes);
 app.use('/api/topic', topicRoutes);
 app.use('/api/answer', answerRoutes);
+app.use('/api/image', imageRoutes);
 
 export default app;

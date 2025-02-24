@@ -1,12 +1,12 @@
 import sequelize from '../../config/database.js';
-import Question from '../../models/Question.js';
+import db from '../../models/index.js';
 
 const deleteQuestion = async (req, res) => {
   const transaction = await sequelize.transaction();
   try {
-    const { id } = req.params;
+    const { questionId } = req.params;
 
-    const question = await Question.findByPk(id, { transaction });
+    const question = await db.Question.findByPk(questionId, { transaction });
     if (!question) {
       await transaction.rollback();
       return res.status(404).json({ message: 'Question not found' });

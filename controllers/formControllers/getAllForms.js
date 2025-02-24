@@ -2,7 +2,6 @@ import db from '../../models/index.js';
 import { Op } from 'sequelize';
 import 'dotenv/config';
 
-// Helper function to parse and validate numbers
 const parseNumber = (value, defaultValue) => {
   const parsed = parseInt(value, 10);
   return isNaN(parsed) || parsed < 1 ? defaultValue : parsed;
@@ -12,11 +11,9 @@ const getAllForms = async (req, res) => {
   try {
     const { page: rawPage, limit: rawLimit, search } = req.query;
 
-    // Parse and validate page and limit
-    const page = parseNumber(rawPage, 1); // Default to 1 if invalid
-    const limit = parseNumber(rawLimit, 10); // Default to 10 if invalid
+    const page = parseNumber(rawPage, 1);
+    const limit = parseNumber(rawLimit, 10);
 
-    // Calculate offset
     const offset = (page - 1) * limit;
 
     const whereClause = {};
@@ -24,18 +21,14 @@ const getAllForms = async (req, res) => {
     
     const sanitizedSearch = search ? search.trim() : '';
     if (sanitizedSearch) {
-      // Case-insensitive search for the title field
       filters.push({ name: { [Op.like]: `%${sanitizedSearch}%` } });
     }
 
-    // For unauthorized users (only public templates)
     if (!req.user) {
       return res.status(403).json({message: 'You are not authorized to get forms'});
     }
-    // For admins (see all templates)
     else if (req.user.role === process.env.ADMIN_ROLE) {
     }
-    // For owners (see their own templates)
     else {
       filters.push({ [Op.or]: [{ userId: req.user.id }] });
     }

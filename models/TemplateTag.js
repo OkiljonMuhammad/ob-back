@@ -1,5 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
+import Template from './Template.js';
+import Tag from './Tag.js';
 
 const TemplateTag = sequelize.define(
   'TemplateTag',
@@ -13,7 +15,7 @@ const TemplateTag = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Template',
+        model: Template, 
         key: 'id',
       },
       onDelete: 'CASCADE',
@@ -22,7 +24,7 @@ const TemplateTag = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Tag',
+        model: Tag,
         key: 'id',
       },
       onDelete: 'CASCADE',

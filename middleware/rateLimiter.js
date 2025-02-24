@@ -7,7 +7,7 @@ const rateLimiter = rateLimit({
     if (!req.user || !req.user.role) {
       return 1000;
     }
-    return req.user.role.toLowerCase() === process.env.ADMIN_ROLE ? 5000 : 3000;
+    return req.user.role.toLowerCase() === process.env.ADMIN_ROLE ? 5000 : 1000;
   },
   keyGenerator: (req) => {
     return req.user?.id || req.ip;

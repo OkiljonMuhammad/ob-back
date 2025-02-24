@@ -4,9 +4,8 @@ import addQuestions from '../controllers/questionControllers/addQuestion.js';
 import getSingleQuestion from '../controllers/questionControllers/getSingleQuestion.js';
 import updateQuestion from '../controllers/questionControllers/updateQuestion.js';
 import updateQuestionOrder from '../controllers/questionControllers/updateQuestionOrder.js';
-import deleteQuestion from '../controllers/questionControllers/deleteQuestion.js';
 import getQuestions from '../controllers/questionControllers/getQuestions.js';
-
+import deleteQuestion from '../controllers/questionControllers/deleteQuestion.js';
 const router = express.Router();
 
 // GET /api/question/questions/:templateId - Get all questions
@@ -18,8 +17,8 @@ router.get('/:questionId', authenticateToken, getSingleQuestion);
 // POST /api/question/:templateId - Create question/questions
 router.post('/:templateId', authenticateToken, addQuestions);
 
-// PUT /api/question/:questionId - update a question
-router.put('/:questionId', authenticateToken, updateQuestion);
+// PUT /api/question/questions/:templateId - update a question
+router.put('/questions/:templateId', authenticateToken, updateQuestion);
 
 // PUT /api/question/order - update question order
 router.put('/order', authenticateToken, updateQuestionOrder);

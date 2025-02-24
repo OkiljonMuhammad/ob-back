@@ -38,16 +38,6 @@ export const getSingleTemplate = async (req, res) => {
       attributes: ['id', 'type', 'text', 'isVisibleInTable', 'order'],
       order: [['order', 'ASC']], 
     });
-
-    // let tagIds = template.tagIds; 
-    // if (typeof tagIds === 'string') {
-    //   try {
-    //     tagIds = JSON.parse(tagIds);
-    //   } catch (parseError) {
-    //     console.error('Error parsing tagIds:', parseError);
-    //     tagIds = []; 
-    //   }
-    // }
     
     return res.status(200).json({
       template: {

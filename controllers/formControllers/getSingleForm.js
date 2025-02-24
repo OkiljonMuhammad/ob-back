@@ -5,7 +5,7 @@ const getSingleForm = async (req, res) => {
     const { id } = req.params;
 
     const form = await Form.findByPk(id, {
-      attributes: ['id', 'templateId', 'userId', 'answers', 'dateFilled'],
+      attributes: ['id', 'templateId', 'userId', 'name', 'createdAt', 'updatedAt'],
     });
 
     if (!form) {

@@ -91,15 +91,22 @@ const defineAssociations = () => {
   // User and FormAccess
   db.User.hasMany(db.FormAccess, { foreignKey: 'userId', onDelete: 'CASCADE' });
   db.FormAccess.belongsTo(db.User, { foreignKey: 'userId' });
+
   // Template and Tag (Many-to-Many)
   db.Template.belongsToMany(db.Tag, {
     through: db.TemplateTag,
-    foreignKey: 'tagId',
+    foreignKey: 'templateId', 
+    otherKey: 'tagId',
+    as: 'tags', 
   });
+  
+  // Template and Tag (Many-to-Many)
   db.Tag.belongsToMany(db.Template, {
     through: db.TemplateTag,
-    foreignKey: 'tagId',
-  });
+    foreignKey: 'tagId', 
+    otherKey: 'templateId',
+    as: 'templates',
+  });  
 };
 
 db.sequelize = sequelize;
