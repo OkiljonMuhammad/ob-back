@@ -20,7 +20,7 @@ router.delete('/:commentId', authenticateToken, deleteComment);
 // GET /api/comment/:templateId/count - get comment count of a template
 router.get('/:templateId/count', getTemplateCommentCount);
 
-// GET /api/comment/templateId/comments/ - get all comments of a template
-router.get('/:templateId/comments', getTemplateComments);
+// GET /api/comment/comments/templateId - get all comments of a template
+router.get('/comments/:templateId', getTemplateComments);
 
 export default router;

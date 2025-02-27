@@ -31,15 +31,11 @@ const getTags = async (req, res) => {
     );
     
 
-    console.log('Raw SQL Query Result:', tagUsageResult);
-
     if (tagUsageResult.length === 0) {
-      console.log('No data found.');
       return res.json([]);
     }
 
     const tagIds = tagUsageResult.map(row => row.tagId);
-    console.log(`Most used tagIds: ${tagIds}`);
 
     const tags = await db.Tag.findAll({
       where: {
@@ -49,8 +45,6 @@ const getTags = async (req, res) => {
       },
       attributes: ['id', 'tagName'],
     });
-
-    console.log('Fetched Tags:', tags);
 
     res.status(200).json({
       message: 'Tags retrieved successfully.',

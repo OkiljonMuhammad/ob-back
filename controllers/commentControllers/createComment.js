@@ -1,4 +1,4 @@
-import Comment from '../../models/Comment.js';
+import db from '../../models/index.js';
 
 const createComment = async (req, res) => {
   try {
@@ -9,7 +9,7 @@ const createComment = async (req, res) => {
       return res.status(400).json({ message: 'Comment content is required' });
     }
 
-    const newComment = await Comment.create({
+    const newComment = await db.Comment.create({
       content,
       templateId,
       userId: req.user.id,

@@ -4,7 +4,7 @@ import 'dotenv/config';
 
 const getPopularTemplates = async (req, res) => {
   try {
-    const limit = 5;
+    const limit = 6;
     const whereClause = {};
     const filters = [];
 
@@ -29,12 +29,10 @@ const getPopularTemplates = async (req, res) => {
     });
 
     if (result.length === 0) {
-      console.log('No data found.');
       return res.json([]);
     }
 
     const templateIds = result.map(row => row.templateId);
-    console.log(`Most used templateIds: ${templateIds}`);
 
     whereClause.id = {
       [Op.in]: templateIds
