@@ -7,7 +7,11 @@ import deleteTemplate from '../controllers/templateControllers/deleteTemplate.js
 import { getSingleTemplate } from '../controllers/templateControllers/getSingleTemplate.js';
 import getPopularTemplates from '../controllers/templateControllers/getPopularTemplates.js';
 import templateResults from '../controllers/templateControllers/templateResults.js'
+import { authenticateApiToken, getAggregatedResults } from '../controllers/templateControllers/apiResults.js';
 const router = express.Router();
+
+// GET /api/template/results - Get a template and form results (External requests)
+router.get('/results', authenticateApiToken, getAggregatedResults);
 
 // GET /api/template/templates - Get all templates (admins and owners)
 router.get('/templates', authenticateToken, getTemplates);
@@ -23,6 +27,7 @@ router.get('/:templateId', authenticateToken, getSingleTemplate);
 
 // GET /api/template/aggregation/:templateId - Get a template (admins and owners)
 router.get('/aggregation/:templateId', authenticateToken,templateResults);
+
 
 // GET /api/template/public/:templateId - Get public template (unauthorized users)
 router.get('/public/:templateId', getSingleTemplate);

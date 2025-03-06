@@ -12,6 +12,7 @@ import getRoles from '../controllers/adminControllers/getUserRoles.js';
 import getSingleUser from '../controllers/adminControllers/getSingleUser.js';
 import createUser from '../controllers/adminControllers/createUser.js';
 import updateUser from '../controllers/adminControllers/updateUser.js';
+import createUserInSalesforce from '../controllers/adminControllers/createUserInSalesforce.js';
 import 'dotenv/config';
 
 const ADMIN_ROLE = process.env.ADMIN_ROLE;
@@ -19,6 +20,9 @@ const router = express.Router();
 
 // POST /api/admin/user/create - Create new user (admin-only)
 router.post('/user/create', authenticateToken, authorizeRole(ADMIN_ROLE), createUser);
+
+// POST /api/admin/salesforce/create - Create new user (admin-only)
+router.post('/salesforce/create', authenticateToken, authorizeRole(ADMIN_ROLE), createUserInSalesforce);
 
 // GET /api/admin/users - Get all users (admin-only)
 router.get('/users', authenticateToken, authorizeRole(ADMIN_ROLE), getAllUsers);

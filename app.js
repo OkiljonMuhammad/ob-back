@@ -14,6 +14,7 @@ import tagRoutes from './routes/tagRoutes.js';
 import topicRoutes from './routes/topicRoutes.js';
 import answerRoutes from './routes/answerRoutes.js';
 import imageRoutes from './routes/imageRoutes.js'
+import jiraRoutes from './routes/jiraRoutes.js'
 import cors from 'cors';
 import 'dotenv/config';
 
@@ -21,7 +22,7 @@ const app = express();
 app.use(express.json({ limit: '10mb' }));
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN,
+    origin: "*",
     methods: "GET, POST, PATCH, PUT, DELETE, OPTIONS",
     credentials: true,
   })
@@ -43,5 +44,6 @@ app.use('/api/tag', tagRoutes);
 app.use('/api/topic', topicRoutes);
 app.use('/api/answer', answerRoutes);
 app.use('/api/image', imageRoutes);
+app.use('/api/jira', jiraRoutes);
 
 export default app;

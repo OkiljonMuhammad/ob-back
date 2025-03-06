@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
+import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import 'dotenv/config';
 
@@ -56,6 +57,10 @@ const User = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    apiToken: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    }
   },
   {
     timestamps: true,
@@ -85,6 +90,10 @@ User.prototype.comparePassword = async function (candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
+User.prototype.generateApiToken = function () {
+  this.apiToken = crypto.randomBytes(32).toString('hex');
+  return this.save();
+}
 // Password hashing hooks
 User.beforeCreate(async (user, options) => {
   try {
