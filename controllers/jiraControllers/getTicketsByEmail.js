@@ -16,7 +16,6 @@ const getTicketsByEmail = async (req, res) => {
         }
         const user = await db.User.findByPk(req.user.id);
         const email = user.email;
-        console.log(email);
         const startAt = (page - 1) * limit;
 
         const jql = `"Reported Email" ~ "${email}" ORDER BY created DESC`;
@@ -41,7 +40,6 @@ const getTicketsByEmail = async (req, res) => {
             templateTitle: issue.fields.customfield_10037,
             ticketUrl: `${JIRA_BASE_URL}/browse/${issue.key}`
         }));
-        console.log(tickets);
         res.json({
             tickets,
             page,

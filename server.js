@@ -1,7 +1,12 @@
 import app from './app.js';
-import 'dotenv/config';
+import { createServer } from "http";
+import setupPresentationSocket from "./sockets/presentationSocket.js";
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+
+const server = createServer(app);
+setupPresentationSocket(server);
+
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

@@ -1,5 +1,7 @@
 import express from 'express';
 import morgan from 'morgan';
+import cors from 'cors';
+import 'dotenv/config';
 import authRoutes from './routes/authRoutes.js';
 import profileRoutes from './routes/profileRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
@@ -15,8 +17,9 @@ import topicRoutes from './routes/topicRoutes.js';
 import answerRoutes from './routes/answerRoutes.js';
 import imageRoutes from './routes/imageRoutes.js'
 import jiraRoutes from './routes/jiraRoutes.js'
-import cors from 'cors';
-import 'dotenv/config';
+import presentationRoutes from './routes/presentationRoutes/presentationRoutes.js';
+import participantRoutes from './routes/presentationRoutes/participantRoutes.js';
+
 
 const app = express();
 app.use(express.json({ limit: '10mb' }));
@@ -30,7 +33,7 @@ app.use(
 app.use(morgan('combined'));
 app.use(rateLimiter);
 
-// Routes
+// Form Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/user', profileRoutes);
 app.use('/api/admin', adminRoutes);
@@ -45,5 +48,10 @@ app.use('/api/topic', topicRoutes);
 app.use('/api/answer', answerRoutes);
 app.use('/api/image', imageRoutes);
 app.use('/api/jira', jiraRoutes);
+
+// Slide Routes
+app.use('/api/presentation', presentationRoutes);
+app.use('/api/participant', participantRoutes);
+
 
 export default app;
