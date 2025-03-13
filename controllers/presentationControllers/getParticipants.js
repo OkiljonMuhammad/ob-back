@@ -37,7 +37,7 @@ const getParticipants = async (req, res) => {
         {
           model: User,
           attributes: ["id", "username"],
-          where: Object.keys(userWhere).length ? userWhere : undefined, // Apply user filtering correctly
+          where: Object.keys(userWhere).length ? userWhere : undefined,
         },
       ],
       offset,

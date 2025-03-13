@@ -7,13 +7,13 @@ if (!process.env.JWT_SECRET) {
 
 const DEFAULT_JWT_EXPIRATION = '1h';
 
-export const generateToken = ({ id, role }) => {
-  if (typeof id !== 'number' || typeof role !== 'string') {
+export const generateToken = ({ id, role, username }) => {
+  if (typeof id !== 'number' || typeof role !== 'string' || typeof username !== 'string') {
     throw new Error(
-      "Invalid user data. Expected 'id' (number) and 'role' (string)."
+      "Invalid user data. Expected 'id' (number) and 'role' (string) and 'username' (string)."
     );
   }
-  return jwt.sign({ id, role }, process.env.JWT_SECRET, {
+  return jwt.sign({ id, role, username }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRATION || DEFAULT_JWT_EXPIRATION,
   });
 };

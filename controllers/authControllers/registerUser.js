@@ -31,7 +31,7 @@ const registerUser = async (req, res) => {
       isBlocked: isBlocked || DEFAULT_BLOCK_STATUS,
     });
 
-    const token = generateToken({ id: newUser.id, role: newUser.role });
+    const token = generateToken({ id: newUser.id, role: newUser.role, username: newUser.username });
 
     res.status(201).json({
       message: 'User registered successfully',

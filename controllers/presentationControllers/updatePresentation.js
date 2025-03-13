@@ -25,14 +25,12 @@ const updatePresentation = async (req, res) => {
     const receivedSlideIds = slides.map(slide => slide.id).filter(Boolean);
     const slidesToRemove = existingSlides.filter(slide => !receivedSlideIds.includes(slide.id));
 
-    // Remove slides and their text blocks
     if (slidesToRemove.length > 0) {
       const slideIdsToRemove = slidesToRemove.map(slide => slide.id);
-      await TextBlock.destroy({ where: { slideId: slideIdsToRemove } }); // Remove related text blocks
-      await Slide.destroy({ where: { id: slideIdsToRemove } }); // Remove slides
+      await TextBlock.destroy({ where: { slideId: slideIdsToRemove } }); 
+      await Slide.destroy({ where: { id: slideIdsToRemove } }); 
     }
 
-    // Process slides
     for (let i = 0; i < slides.length; i++) {
       const slide = slides[i];
       let updatedSlide;
@@ -43,7 +41,7 @@ const updatePresentation = async (req, res) => {
         await updatedSlide.save();
       } else {
         updatedSlide = await Slide.create({ order: i + 1, presentationId });
-        slide.id = updatedSlide.id; // Update the ID reference in the request data
+        slide.id = updatedSlide.id;
       }
 
       if (!updatedSlide) continue;
@@ -54,7 +52,6 @@ const updatePresentation = async (req, res) => {
       const receivedTextBlockIds = slide.TextBlocks?.map(block => block.id).filter(Boolean) || [];
       const textBlocksToRemove = existingTextBlocks.filter(block => !receivedTextBlockIds.includes(block.id));
 
-      // Remove text blocks that are no longer present
       if (textBlocksToRemove.length > 0) {
         await TextBlock.destroy({ where: { id: textBlocksToRemove.map(block => block.id) } });
       }
@@ -75,7 +72,7 @@ const updatePresentation = async (req, res) => {
             y: block.y || 50,
             width: block.width || 300,
             height: block.height || 100,
-            slideId: updatedSlide.id, // Ensure text block gets the correct slide ID
+            slideId: updatedSlide.id, 
           });
         }
       }

@@ -22,7 +22,7 @@ const joinPresentation = async (req, res) => {
 
     if (existingUserId) {
       return res
-        .status(400)
+        .status(204)
         .json({ message: 'You are already joined this presentation' });
     }
 

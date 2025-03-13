@@ -1,6 +1,6 @@
-import { Server } from "socket.io";
+import  { Server } from "socket.io";
 
-const users = {}; // Track users in rooms
+const users = new Map();
 
 const setupPresentationSocket = (server) => {
   const io = new Server(server, {
@@ -11,35 +11,45 @@ const setupPresentationSocket = (server) => {
   });
 
   io.on("connection", (socket) => {
-    console.log("A user connected", socket.id);
+    console.log(`[${new Date().toISOString()}] User connected: ${socket.id}`);
 
-    socket.on("join_presentation", ({ presentationId, nickname }) => {
-      socket.join(presentationId);
+    socket.on("join_presentation", ({ presentationId, username }) => {
+      try {
+        socket.join(presentationId);
 
-      // Add user to room
-      if (!users[presentationId]) users[presentationId] = [];
-      users[presentationId].push({ id: socket.id, nickname });
+        users.set(socket.id, { id: socket.id, username });
 
-      // Send updated user list
-      io.to(presentationId).emit("user_list", users[presentationId]);
+        io.to(presentationId).emit("participant_update", Array.from(users.values()));
 
-      // Notify others
-      socket.to(presentationId).emit("user_joined", { id: socket.id, nickname });
+        console.log(`[${new Date().toISOString()}] ${username} joined presentation ${presentationId}`);
+
+        socket.on("presentation_updated", (updatedSlides) => {
+          io.to(presentationId).emit("presentation_updated", updatedSlides);
+        });
+
+        socket.on("slide_updated", (updatedSlides) => {
+          io.to(presentationId).emit("slide_updated", updatedSlides);
+        });
+
+        socket.on("title_updated", (newTitle) => {
+          io.to(presentationId).emit("title_updated", newTitle);
+        });
+
+      } catch (error) {
+        console.error(`Error in join_presentation: ${error.message}`);
+      }
     });
 
-    socket.on("update_slide", ({ presentationId, slideData }) => {
-      io.to(presentationId).emit("slide_updated", slideData);
-    });
-
-    // Handle user role changes
-    socket.on("change_role", ({ presentationId, userId, role }) => {
-      io.to(presentationId).emit("role_updated", { userId, role });
-    });
 
     socket.on("disconnect", () => {
-      for (const room in users) {
-        users[room] = users[room].filter((user) => user.id !== socket.id);
-        io.to(room).emit("user_list", users[room]); // Update user list
+      try {
+        users.delete(socket.id); 
+
+        io.emit("participant_update", Array.from(users.values()));
+
+        console.log(`[${new Date().toISOString()}] User disconnected: ${socket.id}`);
+      } catch (error) {
+        console.error(`Error in disconnect: ${error.message}`);
       }
     });
   });
