@@ -1,4 +1,4 @@
-import  { Server } from "socket.io";
+import { Server } from "socket.io";
 import 'dotenv/config';
 
 const users = new Map();
@@ -19,9 +19,13 @@ const setupPresentationSocket = (server) => {
       try {
         socket.join(presentationId);
 
-        users.set(socket.id, { id: socket.id, username });
+        if (!users.has(presentationId)) {
+          users.set(presentationId, new Map());
+        }
 
-        io.to(presentationId).emit("participant_update", Array.from(users.values()));
+        users.get(presentationId).set(socket.id, { id: socket.id, username });
+
+        io.to(presentationId).emit("participant_update", Array.from(users.get(presentationId).values()));
 
         console.log(`[${new Date().toISOString()}] ${username} joined presentation ${presentationId}`);
 
@@ -37,17 +41,25 @@ const setupPresentationSocket = (server) => {
           io.to(presentationId).emit("title_updated", newTitle);
         });
 
+        socket.presentationId = presentationId;
+
       } catch (error) {
         console.error(`Error in join_presentation: ${error.message}`);
       }
     });
 
-
     socket.on("disconnect", () => {
       try {
-        users.delete(socket.id); 
+        const { presentationId } = socket;
+        if (presentationId && users.has(presentationId)) {
+          users.get(presentationId).delete(socket.id);
 
-        io.emit("participant_update", Array.from(users.values()));
+          if (users.get(presentationId).size === 0) {
+            users.delete(presentationId);
+          }
+
+          io.to(presentationId).emit("participant_update", Array.from(users.get(presentationId)?.values() || []));
+        }
 
         console.log(`[${new Date().toISOString()}] User disconnected: ${socket.id}`);
       } catch (error) {
