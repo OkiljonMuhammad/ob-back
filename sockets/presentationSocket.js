@@ -8,6 +8,7 @@ const setupPresentationSocket = (server) => {
     cors: {
       origin: [process.env.CORS_ORIGIN, process.env.LOCAL_HOST],
       methods: ["GET", "POST", "PUT", "DELETE"],
+      credentials: true,
     },
   });
 
