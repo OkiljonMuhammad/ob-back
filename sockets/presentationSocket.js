@@ -1,12 +1,13 @@
 import  { Server } from "socket.io";
+import 'dotenv/config';
 
 const users = new Map();
 
 const setupPresentationSocket = (server) => {
   const io = new Server(server, {
     cors: {
-      origin: "*",
-      methods: ["GET", "POST"],
+      origin: [process.env.CORS_ORIGIN, process.env.LOCAL_HOST],
+      methods: ["GET", "POST", "PUT", "DELETE"],
     },
   });
 
